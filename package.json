@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.468.0",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
