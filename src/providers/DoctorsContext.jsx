@@ -1,11 +1,18 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState, useRef } from "react"
 import { get } from "@/api/requests"
+
+import { Toaster } from "@/components/ui/toaster"
+import { useToast } from "@/hooks/use-toast"
 
 const DoctorsContext = createContext(null);
 
 export function DoctorsProvider({ children }) {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { toast } = useToast()
+
+  const loadMoreDoctorsCalledOnceRef = useRef(false);
 
   useEffect(() => {
     const loadDoctors = async () => {
@@ -22,9 +29,40 @@ export function DoctorsProvider({ children }) {
     loadDoctors();
   }, [])
 
+  const shouldSimulateError = () => {
+    if (!loadMoreDoctorsCalledOnceRef.current) {
+      loadMoreDoctorsCalledOnceRef.current = true
+      throw new Error("Llamado a la API falló para simular un error!")
+    }
+    return
+  }
+
+  const loadMoreDoctors = async () => {
+    try {
+      const doctorsData = await get("/static/json/more-doctors.json");
+
+      shouldSimulateError()
+
+      setDoctors((oldDoctorsData) => ([...oldDoctorsData, ...doctorsData]));
+      toast({
+        title: "Doctores cargados correctamente",
+        description: `Mostrando ${doctorsData.length} nuevos doctores`,
+      })
+    } catch (error) {
+      console.error("Error fetching doctors:", error);
+      toast({
+        title: "Error cargando doctores!",
+        description: "Por favor reintentar.",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-    <DoctorsContext.Provider value={{ doctors, loading }} >
+    <DoctorsContext.Provider value={{ doctors, loading, loadMoreDoctors }} >
       {children}
+      <Toaster />
     </DoctorsContext.Provider>
   );
 }
