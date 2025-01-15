@@ -14,9 +14,26 @@ open `http://localhost:5173`
 
 # Preguntas
 
-## Como testear
-Usar
+
+## 1. Protección de Rutas con React Router Dom
+Ver implementación en `src/config/protected-route.tsx`, `src/config/routes.tsx`, `src/config/auth-validators.js`
+
+## 2. Implementación de Autenticación de Usuarios y Roles
+La ruta de `Contacto` solo puede ser acceder con rol de usuario. La ruta de `Backoffice` solo se puede acceder con role de admin
+
+Credenciales:
 ```
+# Admin
 user: admin
 password: admin
+
+# User
+user: user
+password: user
 ```
+
+## 3. Consumo de APIs Protegido con API Key y JWT 
+
+## 4. Prevención de vulnerabilidades comunes
+
+## 5. Encriptación de Datos en el Front End

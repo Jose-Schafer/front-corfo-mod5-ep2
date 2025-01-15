@@ -10,22 +10,20 @@ const getTokenFromLocalStorage = () => {
   }
 };
 
-export const isAdmin = () => {
+export const getUserRole = () => {
   const token = getTokenFromLocalStorage();
   if (!token) {
-    return false; // No token, not an admin
+    return false;
   }
 
   try {
-    const decoded = jwtDecode(token); // Decode the token to get the payload
-    // Assuming the role is stored in the 'role' field in the JWT payload
-    if (decoded.role && decoded.role === 'Admin') {
-      return true; // User is an admin
-    } else {
-      return false; // User is not an admin
+    const decoded = jwtDecode(token);
+    if (decoded.role) {
+      return decoded.role;
     }
+    return false;
   } catch (error) {
     console.error('Error decoding token', error);
-    return false; // Error in decoding or invalid token
+    return false;
   }
 };

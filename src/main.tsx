@@ -5,9 +5,7 @@ import './index.css'
 import { routes } from '@/config/routes'
 import Layout from './layout.tsx'
 import { DoctorsProvider } from '@/providers/DoctorsContext'
-import ProtectedRoute from '@/config/protected-route'
 import Login from '@/views/login'
-import { isAdmin } from '@/config/auth-validators'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -16,11 +14,9 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           {routes.map((route, index) => (
             <Route path={route.path} element={
-              <ProtectedRoute isAllowed={isAdmin()} redirectPath="/login">
-                <Layout>
-                  {route.component}
-                </Layout>
-              </ProtectedRoute>
+              <Layout>
+                {route.component}
+              </Layout>
             } key={index} />
           ))}
           <Route path="/login" element={<Login />} />
