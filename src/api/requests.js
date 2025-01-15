@@ -1,10 +1,12 @@
 import CryptoJS from 'crypto-js'; // Ensure you have installed this package for encryption
 
-export function get(url, apiKey, body = null) {
+const API_KEY = "api_key"; // This should be extracted from an environment variable
+
+export function get(url, body = null) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const headers = new Headers({
-        'Authorization': `Bearer ${apiKey}`,
+        'Authorization': `Bearer ${API_KEY}`,
         'Content-Type': 'application/json',
       });
 

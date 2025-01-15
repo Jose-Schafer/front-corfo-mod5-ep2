@@ -39,7 +39,7 @@ export function DoctorsProvider({ children }) {
 
   const loadMoreDoctors = async () => {
     try {
-      const doctorsData = await get("/static/json/more-doctors.json");
+      const doctorsData = await get("/static/json/more-doctors.json", { "page": 1 });
 
       shouldSimulateError()
 

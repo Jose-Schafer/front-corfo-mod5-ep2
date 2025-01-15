@@ -33,7 +33,10 @@ password: user
 ```
 
 ## 3. Consumo de APIs Protegido con API Key y JWT 
+Ver api protegida en `src/api/requests.js`:
+
 
 ## 4. Prevención de vulnerabilidades comunes
 
 ## 5. Encriptación de Datos en el Front End
+Ver datos encriptados en `src/api/request.js` y su uso en `src/providers/Context.jsx` al pasar un body. Se puede ver en el debugger el payload de la request.
