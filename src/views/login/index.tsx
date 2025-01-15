@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router'
 import { Input } from "@/components/ui/input"
 
 export default function Login() {
@@ -6,29 +7,14 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  let navigate = useNavigate();
+
   const handleLogin = () => {
     if (username === 'admin' && password === 'admin') {
-
       const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNTE2MjM5MDIyfQ.1sBNVFZs67RWole33uQsvAoo4yt-WJmMF9bGh-TTL4w';
-      // {
-      //   "alg": "HS256",
-      //   "typ": "JWT"
-      // } 
-      // {
-      //   "sub": "1234567890",
-      //   "name": "Admin",
-      //   "role": "Admin",
-      //   "iat": 1516239022
-      // }
-      //
-      // HMACSHA256(
-      //   base64UrlEncode(header) + "." +
-      //   base64UrlEncode(payload),
-      //   secreto
-      // )
       localStorage.setItem('auth-token', token);
-      setError('');
       alert('Login successful!');
+      navigate("/");
     } else {
       setError('Invalid username or password');
     }

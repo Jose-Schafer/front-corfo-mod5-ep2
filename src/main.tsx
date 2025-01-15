@@ -5,9 +5,9 @@ import './index.css'
 import { routes } from '@/config/routes'
 import Layout from './layout.tsx'
 import { DoctorsProvider } from '@/providers/DoctorsContext'
-import ProtectedRoute from '@/api/auth-request'
+import ProtectedRoute from '@/config/protected-route'
 import Login from '@/views/login'
-import { isAdmin } from '@/api/auth-validators'
+import { isAdmin } from '@/config/auth-validators'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
