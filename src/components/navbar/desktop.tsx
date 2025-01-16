@@ -2,14 +2,11 @@ import {
   NavigationMenu,
   NavigationMenuItem as BaseNavigationMenuItem,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuContent,
-  NavigationMenuLink
 } from "@/components/ui/navigation-menu"
 
-import { useNavigate } from 'react-router'
 import { Link } from 'react-router';
 
+import { useNavigate } from 'react-router'
 import { routes } from '@/config/routes'
 import { useAuth } from '@/providers/AuthContext';
 
@@ -34,7 +31,7 @@ export function Navbar() {
           ))}
         </div>
         <BaseNavigationMenuItem className="">
-          <p className="text-2xl p-4 bg-white rounded-full" onClick={handleLoginOrCloseSession}>
+          <p className="text-xl p-2 bg-white rounded-full" onClick={handleLoginOrCloseSession}>
             {user ? "Cerrar Sesión" : "Login"}
           </p>
         </BaseNavigationMenuItem>

@@ -10,7 +10,11 @@ type ProtectedRouteProps = {
 function ProtectedRoute({ allowedRoles, redirectPath = '/', children }: ProtectedRouteProps) {
   const { user } = useAuth()
 
-  if (!allowedRoles.includes(user?.role?.toLowerCase())) {
+  if (allowedRoles.includes("*")) {
+    return children ? children : <Outlet />;
+  }
+
+  if (!allowedRoles.includes(user?.role.toLowerCase())) {
     console.log("redirect")
     return <Navigate to={redirectPath} replace />;
   }
