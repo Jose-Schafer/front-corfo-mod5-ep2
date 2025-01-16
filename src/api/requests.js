@@ -1,6 +1,6 @@
-import CryptoJS from 'crypto-js'; // Ensure you have installed this package for encryption
+import { encrypt } from '@/lib/encription'
 
-const API_KEY = "api_key"; // This should be extracted from an environment variable
+const API_KEY = import.meta.env.VITE_API_KEY; // This should be extracted from an environment variable
 
 export function get(url, body = null) {
   return new Promise((resolve, reject) => {
@@ -14,8 +14,7 @@ export function get(url, body = null) {
 
       // Encrypt the body if provided
       if (body) {
-        const secretKey = 'your-encryption-key'; // Replace with your secret key
-        encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), secretKey).toString();
+        encryptedBody = encrypt(body);
       }
 
       fetch(url, {

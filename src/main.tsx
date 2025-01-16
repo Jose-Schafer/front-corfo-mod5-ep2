@@ -5,23 +5,26 @@ import './index.css'
 import { routes } from '@/config/routes'
 import Layout from './layout.tsx'
 import { DoctorsProvider } from '@/providers/DoctorsContext'
+import { AuthProvider } from '@/providers/AuthContext'
 import Login from '@/views/login'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <DoctorsProvider>
-      <BrowserRouter>
-        <Routes>
-          {routes.map((route, index) => (
-            <Route path={route.path} element={
-              <Layout>
-                {route.component}
-              </Layout>
-            } key={index} />
-          ))}
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
-    </DoctorsProvider>
+    <AuthProvider>
+      <DoctorsProvider>
+        <BrowserRouter>
+          <Routes>
+            {routes.map((route, index) => (
+              <Route path={route.path} element={
+                <Layout>
+                  {route.component}
+                </Layout>
+              } key={index} />
+            ))}
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </BrowserRouter>
+      </DoctorsProvider>
+    </AuthProvider>
   </StrictMode >
 )

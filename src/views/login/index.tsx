@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router'
 import { Input } from "@/components/ui/input"
+import { useAuth } from '@/providers/AuthContext';
+import { setCookie, getCookie } from '@/lib/cookies';
+import { encrypt, decrypt } from '@/lib/encription';
+import { jwtDecode } from 'jwt-decode';
+
+import { mockPostUserLogin } from '@/mocks/login'
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -8,25 +14,19 @@ export default function Login() {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const { setUser } = useAuth()
 
   const handleLogin = () => {
+    const token = mockPostUserLogin(username, password)
+    setCookie("auth-token", encrypt(token))
 
-    // This should be changed to be validated on the backend or Auth Provider
-    if (username === 'admin' && password === 'admin') {
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFkbWluIiwicm9sZSI6IkFkbWluIiwiaWF0IjoxNTE2MjM5MDIyfQ.1sBNVFZs67RWole33uQsvAoo4yt-WJmMF9bGh-TTL4w';
-      localStorage.setItem('auth-token', token);
-      alert('Login successful!');
-      navigate("/");
-
-    } else if (username == 'user' && password == 'user') {
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlIjoiVXNlciJ9.bBlJzzxMMG10s4cxuUHUyFPJ2i2BW4ogPR_NjCZPwi4';
-      localStorage.setItem('auth-token', token);
-      alert('Login successful!');
-      navigate("/");
-    } else {
-      setError('Invalid username or password');
-    }
+    const decodedToken = jwtDecode(token);
+    const { name, role } = { ...decodedToken }
+    setUser({ name, role })
+    alert('Login successful!');
+    navigate("/");
   };
+
 
   return (
     <div className="min-h-screen w-screen flex justify-center items-center bg-gray-100">

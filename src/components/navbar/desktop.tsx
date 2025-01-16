@@ -2,23 +2,44 @@ import {
   NavigationMenu,
   NavigationMenuItem as BaseNavigationMenuItem,
   NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink
 } from "@/components/ui/navigation-menu"
 
+import { useNavigate } from 'react-router'
 import { Link } from 'react-router';
 
 import { routes } from '@/config/routes'
+import { useAuth } from '@/providers/AuthContext';
 
 import { bgColor, textColor } from './constants'
 
 export function Navbar() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLoginOrCloseSession = () => {
+    if (user) {
+      navigate("/login")
+    }
+  }
+
   return (
-    <NavigationMenu className={`fixed top-0 left-0 ${bgColor}`}>
-      <NavigationMenuList className="w-screen">
-        {routes.map((route, index) => (
-          <NavigationMenuItem href={route.path} text={route.text} key={index} />
-        ))}
-      </NavigationMenuList >
-    </NavigationMenu >
+    <NavigationMenu className={`${bgColor} px-8`}>
+      <NavigationMenuList className="w-screen flex items-center justify-between px-24">
+        <div className="flex space-x-4">
+          {routes.map((route, index) => (
+            <NavigationMenuItem href={route.path} text={route.text} key={index} />
+          ))}
+        </div>
+        <BaseNavigationMenuItem className="">
+          <p className="text-2xl p-4 bg-white rounded-full" onClick={handleLoginOrCloseSession}>
+            {user ? "Cerrar Sesión" : "Login"}
+          </p>
+        </BaseNavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
   )
 }
 

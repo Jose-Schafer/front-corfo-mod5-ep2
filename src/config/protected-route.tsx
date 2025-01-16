@@ -1,5 +1,5 @@
 import { Outlet, Navigate } from 'react-router';
-import { getUserRole } from '@/config/auth-validators'
+import { useAuth } from '@/providers/AuthContext';
 
 type ProtectedRouteProps = {
   allowedRoles: string[];
@@ -7,16 +7,10 @@ type ProtectedRouteProps = {
   children?: React.ReactNode;
 }
 
-const ProtectedRoute = ({
-  allowedRoles,
-  redirectPath = '/',
-  children,
-}: ProtectedRouteProps) => {
+function ProtectedRoute({ allowedRoles, redirectPath = '/', children }: ProtectedRouteProps) {
+  const { user } = useAuth()
 
-  const role = getUserRole();
-  console.log(role)
-  console.log(allowedRoles)
-  if (!allowedRoles.includes(role.toLowerCase())) {
+  if (!allowedRoles.includes(user?.role?.toLowerCase())) {
     console.log("redirect")
     return <Navigate to={redirectPath} replace />;
   }
